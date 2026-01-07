@@ -176,8 +176,17 @@ status() {
 # 停止所有进程
 stop() {
     print_info "停止所有 NewsNow 进程..."
-    pkill -f "electron.*newsnow" || print_warning "Electron 进程未运行"
-    pkill -f "node.*dist/output/server" || print_warning "服务器进程未运行"
+
+    # 使用项目路径来精确匹配进程
+    local project_path="/Users/xushengchen/code/newsnow"
+
+    # 杀死所有包含项目路径的进程
+    # 这会匹配主进程、helper进程和服务器进程
+    ps aux | grep -E "${project_path}" | grep -v grep | awk '{print $2}' | xargs kill -9 2>/dev/null || true
+
+    # 再次确认，使用 pkill 清理剩余进程
+    pkill -9 -f "node.*${project_path}/dist/output/server" 2>/dev/null || true
+
     print_success "所有进程已停止"
 }
 
