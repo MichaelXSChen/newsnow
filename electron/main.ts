@@ -60,6 +60,14 @@ function createWindow() {
   mainWindow.on("closed", () => {
     mainWindow = null
   })
+
+  // Close app when window is closed (instead of just hiding on macOS)
+  mainWindow.on("close", () => {
+    if (serverProcess) {
+      serverProcess.kill()
+    }
+    app.quit()
+  })
 }
 
 app.on("ready", () => {
@@ -67,13 +75,12 @@ app.on("ready", () => {
 })
 
 app.on("window-all-closed", () => {
-  // Stop server when all windows are closed
+  // On macOS, the app and its menu bar stay active unless the user quits explicitly
+  // But for NewsNow, we quit when all windows are closed
   if (serverProcess) {
     serverProcess.kill()
   }
-  if (process.platform !== "darwin") {
-    app.quit()
-  }
+  app.quit()
 })
 
 app.on("before-quit", () => {
