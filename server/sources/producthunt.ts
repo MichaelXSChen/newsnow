@@ -5,7 +5,8 @@ export default defineSource(async () => {
   const apiToken = process.env.PRODUCTHUNT_API_TOKEN
   const token = `Bearer ${apiToken}`
   if (!apiToken) {
-    throw new Error("PRODUCTHUNT_API_TOKEN is not set")
+    // 如果没有 token，返回空数组而不是抛出错误
+    return []
   }
   const query = `
     query {

@@ -264,7 +264,6 @@ export const originSources = {
     column: "tech",
     type: "hottest",
     home: "https://www.producthunt.com/",
-    disable: true,
   },
   "github": {
     name: "Github",
