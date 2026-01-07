@@ -322,6 +322,14 @@
     "color": "orange",
     "interval": 600000
   },
+  "huggingface": {
+    "name": "Hugging Face",
+    "type": "hottest",
+    "column": "tech",
+    "home": "https://huggingface.co/",
+    "color": "yellow",
+    "interval": 600000
+  },
   "producthunt": {
     "name": "Product Hunt",
     "type": "hottest",

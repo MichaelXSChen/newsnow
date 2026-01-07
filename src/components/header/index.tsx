@@ -45,6 +45,25 @@ function Refresh() {
   )
 }
 
+function ClearCache() {
+  const toast = useToast()
+
+  const clearCache = useCallback(() => {
+    localStorage.removeItem("metadata")
+    toast("缓存已清除，页面将重新加载")
+    setTimeout(() => location.reload(), 1000)
+  }, [toast])
+
+  return (
+    <button
+      type="button"
+      title="Clear Cache"
+      className="i-ph:trash-duotone btn"
+      onClick={clearCache}
+    />
+  )
+}
+
 export function Header() {
   return (
     <>
@@ -71,6 +90,7 @@ export function Header() {
       <span className="justify-self-end flex gap-2 items-center text-xl text-primary-600 dark:text-primary">
         <GoTop />
         <Refresh />
+        <ClearCache />
         <Github />
         <Menu />
       </span>

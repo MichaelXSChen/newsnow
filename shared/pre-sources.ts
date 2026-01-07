@@ -258,6 +258,13 @@ export const originSources = {
     type: "hottest",
     home: "https://news.ycombinator.com/",
   },
+  "huggingface": {
+    name: "Hugging Face",
+    color: "yellow",
+    column: "tech",
+    type: "hottest",
+    home: "https://huggingface.co/",
+  },
   "producthunt": {
     name: "Product Hunt",
     color: "red",
