@@ -1,5 +1,4 @@
-import { fixedColumnIds, metadata } from "@shared/metadata"
-import { Link } from "@tanstack/react-router"
+import { metadata } from "@shared/metadata"
 import { currentColumnIDAtom } from "~/atoms"
 
 export function NavBar() {
@@ -19,20 +18,18 @@ export function NavBar() {
           "cursor-pointer transition-all",
         )}
       >
-        更多
+        搜索
       </button>
-      {fixedColumnIds.map(columnId => (
-        <Link
+      {Object.entries(metadata).map(([columnId, column]) => (
+        <span
           key={columnId}
-          to="/c/$column"
-          params={{ column: columnId }}
           className={$(
-            "px-2 hover:(bg-primary/10 rounded-md) cursor-pointer transition-all",
+            "px-2 cursor-pointer transition-all",
             currentId === columnId ? "color-primary font-bold" : "op-70 dark:op-90",
           )}
         >
-          {metadata[columnId].name}
-        </Link>
+          {column.name}
+        </span>
       ))}
     </span>
   )

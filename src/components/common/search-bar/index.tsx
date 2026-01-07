@@ -12,43 +12,21 @@ interface SourceItemProps {
   id: SourceID
   name: string
   title?: string
-  column: any
   pinyin: string
-}
-
-function groupByColumn(items: SourceItemProps[]) {
-  return items.reduce((acc, item) => {
-    const k = acc.find(i => i.column === item.column)
-    if (k) k.sources = [...k.sources, item]
-    else acc.push({ column: item.column, sources: [item] })
-    return acc
-  }, [] as {
-    column: string
-    sources: SourceItemProps[]
-  }[]).sort((m, n) => {
-    if (m.column === "科技") return -1
-    if (n.column === "科技") return 1
-
-    if (m.column === "未分类") return 1
-    if (n.column === "未分类") return -1
-
-    return m.column < n.column ? -1 : 1
-  })
 }
 
 export function SearchBar() {
   const { opened, toggle } = useSearchBar()
   const sourceItems = useMemo(
     () =>
-      groupByColumn(typeSafeObjectEntries(sources)
+      typeSafeObjectEntries(sources)
         .filter(([_, source]) => !source.redirect)
         .map(([k, source]) => ({
           id: k,
           title: source.title,
-          column: source.column ? columns[source.column].zh : "未分类",
           name: source.name,
           pinyin: pinyin?.[k as keyof typeof pinyin] ?? "",
-        })))
+        }))
     , [],
   )
   const inputRef = useRef<HTMLInputElement | null>(null)
@@ -88,16 +66,9 @@ export function SearchBar() {
       <div className="md:flex pt-2">
         <OverlayScrollbar defer className="overflow-y-auto md:min-w-275px">
           <Command.List>
-            <Command.Empty> 没有找到，可以前往 Github 提 issue </Command.Empty>
+            <Command.Empty>没有找到，可以前往 Github 提 issue</Command.Empty>
             {
-              sourceItems.map(({ column, sources }) => (
-                <Command.Group heading={column} key={column}>
-                  {
-                    sources.map(item => <SourceItem item={item} key={item.id} />)
-                  }
-                </Command.Group>
-              ),
-              )
+              sourceItems.map(item => <SourceItem item={item} key={item.id} />)
             }
           </Command.List>
         </OverlayScrollbar>
@@ -112,13 +83,11 @@ export function SearchBar() {
 function SourceItem({ item }: {
   item: SourceItemProps
 }) {
-  const { isFocused, toggleFocus } = useFocusWith(item.id)
   return (
     <Command.Item
       keywords={[item.name, item.title ?? "", item.pinyin]}
       value={item.id}
-      className="flex justify-between items-center p-2"
-      onSelect={toggleFocus}
+      className="flex items-center p-2"
     >
       <span className="flex gap-2 items-center">
         <span
@@ -130,7 +99,6 @@ function SourceItem({ item }: {
         <span>{item.name}</span>
         <span className="text-xs text-neutral-400/80 self-end mb-3px">{item.title}</span>
       </span>
-      <span className={$(isFocused ? "i-ph-star-fill" : "i-ph-star-duotone", "bg-primary op-40")}></span>
     </Command.Item>
   )
 }

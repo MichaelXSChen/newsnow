@@ -33,23 +33,19 @@ function createPrimitiveMetadataAtom(
 }
 
 const initialMetadata = typeSafeObjectFromEntries(typeSafeObjectEntries(metadata)
-  .filter(([id]) => fixedColumnIds.includes(id as any))
   .map(([id, val]) => [id, val.sources] as [FixedColumnID, SourceID[]]))
+
 export function preprocessMetadata(target: PrimitiveMetadata) {
   return {
-    data: {
-      ...initialMetadata,
-      ...typeSafeObjectFromEntries(
-        typeSafeObjectEntries(target.data)
-          .filter(([id]) => initialMetadata[id])
-          .map(([id, s]) => {
-            if (id === "focus") return [id, s.filter(k => sources[k]).map(k => sources[k].redirect ?? k)]
-            const oldS = s.filter(k => initialMetadata[id].includes(k)).map(k => sources[k].redirect ?? k)
-            const newS = initialMetadata[id].filter(k => !oldS.includes(k))
-            return [id, [...oldS, ...newS]]
-          }),
-      ),
-    },
+    data: typeSafeObjectFromEntries(
+      typeSafeObjectEntries(target.data).map(([id, userSources]) => {
+        // Merge user's custom order with new sources
+        const defaultSources = initialMetadata[id] || []
+        const existingValidSources = userSources.filter(k => sources[k]).map(k => sources[k].redirect ?? k)
+        const newSources = defaultSources.filter(k => !existingValidSources.includes(k))
+        return [id, [...existingValidSources, ...newSources]]
+      }),
+    ),
     action: target.action,
     updatedTime: target.updatedTime,
   } as PrimitiveMetadata

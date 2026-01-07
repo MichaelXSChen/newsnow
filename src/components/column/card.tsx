@@ -102,8 +102,6 @@ function NewsCard({ id, setHandleRef }: NewsCardProps) {
     retry: false,
   })
 
-  const { isFocused, toggleFocus } = useFocusWith(id)
-
   return (
     <>
       <div className={$("flex justify-between mx-2 mt-0 mb-2 items-center")}>
@@ -135,11 +133,6 @@ function NewsCard({ id, setHandleRef }: NewsCardProps) {
             type="button"
             className={$("btn i-ph:arrow-counter-clockwise-duotone", isFetching && "animate-spin i-ph:circle-dashed-duotone")}
             onClick={() => refresh(id)}
-          />
-          <button
-            type="button"
-            className={$("btn", isFocused ? "i-ph:star-fill" : "i-ph:star-duotone")}
-            onClick={toggleFocus}
           />
           {/* firefox cannot drag a button */}
           {setHandleRef && (
