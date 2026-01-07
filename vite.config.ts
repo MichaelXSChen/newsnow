@@ -14,6 +14,7 @@ dotenv.config({
 })
 
 export default defineConfig({
+  base: "./",
   resolve: {
     alias: {
       "~": join(projectDir, "src"),

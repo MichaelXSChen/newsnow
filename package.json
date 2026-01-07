@@ -3,6 +3,7 @@
   "type": "module",
   "version": "0.0.39",
   "private": true,
+  "main": "dist/main.js",
   "packageManager": "pnpm@10.14.0+sha512.ad27a79641b49c3e481a16a805baa71817a04bbe06a38d17e60e2eaee83f6a146c6a688125f5792e48dd5ba30e7da52a5cda4c3992b9ccf333f9ce223af84748",
   "author": {
     "url": "https://github.com/ourongxing/",
@@ -22,7 +23,14 @@
     "release": "bumpp",
     "prepare": "simple-git-hooks",
     "log": "wrangler pages deployment tail --project-name newsnow",
-    "test": "vitest -c vitest.config.ts"
+    "test": "vitest -c vitest.config.ts",
+    "electron:dev": "npm run presource && vite build && npx tsc electron/main.ts electron/preload.ts --outDir dist --module ESNext --target ESNext --moduleResolution bundler --skipLibCheck && cross-env NODE_ENV=development electron .",
+    "electron:build": "npm run presource && vite build && npx tsc electron/main.ts electron/preload.ts --outDir dist --module ESNext --target ESNext --moduleResolution bundler --skipLibCheck && electron-builder",
+    "electron": "./electron.sh",
+    "electron:menu": "./electron.sh",
+    "electron:stop": "./electron.sh stop",
+    "electron:status": "./electron.sh status",
+    "electron:clean": "./electron.sh clean"
   },
   "dependencies": {
     "@atlaskit/pragmatic-drag-and-drop": "^1.5.0",
@@ -44,6 +52,7 @@
     "dayjs": "1.11.13",
     "db0": "^0.3.1",
     "defu": "^6.1.4",
+    "electron": "^39.2.7",
     "fast-xml-parser": "^5.0.8",
     "framer-motion": "^12.4.7",
     "h3": "^1.15.1",
@@ -79,6 +88,7 @@
     "bumpp": "^10.0.3",
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.7",
+    "electron-builder": "^26.0.12",
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
@@ -133,5 +143,26 @@
   },
   "lint-staged": {
     "*": "eslint --fix"
+  },
+  "build": {
+    "appId": "com.newsnow.app",
+    "productName": "NewsNow",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.news"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage",
+      "category": "News"
+    }
   }
 }
