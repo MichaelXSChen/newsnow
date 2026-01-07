@@ -17,9 +17,24 @@ function startServer() {
 
   console.log("Starting server at:", serverPath)
 
+  // Set working directory based on environment
+  // - Development: Use project root (for easy access to source files)
+  // - Production: Use userData directory (for persistent data storage)
+  // __dirname in dev: /path/to/newsnow/dist
+  // __dirname in prod: /path/to/NewsNow.app/Contents/Resources/dist
+  const cwd = isDev
+    ? join(__dirname, "..") // /path/to/newsnow
+    : app.getPath("userData") // ~/Library/Application Support/NewsNow (macOS)
+
+  console.log("Working directory:", cwd)
+
   serverProcess = spawn("node", [serverPath], {
-    cwd: join(__dirname, ".."),
+    cwd,
     stdio: "inherit",
+    env: {
+      ...process.env,
+      NODE_ENV: process.env.NODE_ENV || "production",
+    },
   })
 
   serverProcess.on("error", (err) => {
