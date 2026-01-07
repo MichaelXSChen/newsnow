@@ -1,6 +1,5 @@
 /* eslint-disable ts/no-require-imports */
 /* eslint-disable node/prefer-global/process */
-/// <reference types="node" />
 
 const { contextBridge } = require("electron")
 

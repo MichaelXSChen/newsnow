@@ -94,9 +94,6 @@ importers:
       iconv-lite:
         specifier: ^0.6.3
         version: 0.6.3
-      jose:
-        specifier: ^6.0.8
-        version: 6.0.11
       jotai:
         specifier: ^2.12.1
         version: 2.12.4(@types/react@19.1.3)(react@19.1.0)
@@ -4757,8 +4754,8 @@ packages:
     resolution: {integrity: sha512-O1Ld7Dr+nqPnmGpdhzLmMTQ4vAsD+rHwMm1NLUmoUFFymBOMKxCCrtDxqdBRYXdeEPEi3SyoR4TizJLQrnKBNA==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
-  h3-nightly@2.0.1-rc.7:
-    resolution: {integrity: sha512-B0kPchrF7s5z+9vqHF2nPhGxj83jpS93KHgiU2es4RZ/N1PqYBiH/9nfwGL0dtyRIi3GisWCX4OOJ9VQkMl1tg==}
+  h3-nightly@2.0.1-rc.8:
+    resolution: {integrity: sha512-cmQ8KkRMn5gtRBIlw3uDAu2RD/EpsxVWq05JnnvT4ZX6azlX3X0in43bGt7UlW9yhmYHRnTkHbKEnJYigZbsbw==}
     engines: {node: '>=20.11.1'}
     peerDependencies:
       crossws: ^0.4.1
@@ -5213,9 +5210,6 @@ packages:
   jiti@2.4.2:
     resolution: {integrity: sha512-rg9zJN+G4n2nfJl5MW3BMygZX56zKPNVEYYqq7adpmMh4Jn2QNEwhvQlFy6jPVdcod7txZtKHWnyZiA3a0zP7A==}
     hasBin: true
-
-  jose@6.0.11:
-    resolution: {integrity: sha512-QxG7EaliDARm1O1S8BGakqncGT9s25bKL1WSf6/oa17Tkqwi8D2ZNglqCF+DsYF88/rV66Q/Q2mFAy697E1DUg==}
 
   jotai@2.12.4:
     resolution: {integrity: sha512-eFXLJol4oOLM8BS1+QV+XwaYQITG8n1tatBCFl4F5HE3zR5j2WIK8QpMt7VJIYmlogNUZfvB7wjwLoVk+umB9Q==}
@@ -13065,7 +13059,7 @@ snapshots:
     dependencies:
       duplexer: 0.1.2
 
-  h3-nightly@2.0.1-rc.7:
+  h3-nightly@2.0.1-rc.8:
     dependencies:
       rou3: 0.7.12
       srvx: 0.10.0
@@ -13492,8 +13486,6 @@ snapshots:
       minimatch: 3.1.2
 
   jiti@2.4.2: {}
-
-  jose@6.0.11: {}
 
   jotai@2.12.4(@types/react@19.1.3)(react@19.1.0):
     optionalDependencies:
@@ -16040,7 +16032,7 @@ snapshots:
     dependencies:
       consola: 3.4.2
       defu: 6.1.4
-      h3: h3-nightly@2.0.1-rc.7
+      h3: h3-nightly@2.0.1-rc.8
       nitropack: nitro-go@0.0.3(@libsql/client@0.15.4)(better-sqlite3@11.10.0)(encoding@0.1.13)(mysql2@3.14.3)
       vite: 6.3.5(@types/node@22.15.17)(jiti@2.4.2)(terser@5.39.0)(tsx@4.19.4)(yaml@2.7.1)
     transitivePeerDependencies:
