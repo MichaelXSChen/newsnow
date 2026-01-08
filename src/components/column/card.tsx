@@ -118,9 +118,12 @@ function NewsCard({ id, setHandleRef, showDelete, onDelete }: NewsCardProps) {
         <div className="flex gap-2 items-center">
           <a
             className={$("w-8 h-8 rounded-full bg-cover")}
-            target="_blank"
             href={sources[id].home}
             title={sources[id].desc}
+            onClick={(e) => {
+              e.preventDefault()
+              window.open(sources[id].home, "_blank")
+            }}
             style={{
               backgroundImage: `url(/icons/${id.split("-")[0]}.png)`,
             }}
@@ -239,14 +242,20 @@ function NewsUpdatedTime({ date }: { date: string | number }) {
 }
 function NewsListHot({ items }: { items: NewsItem[] }) {
   const { width } = useWindowSize()
+
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, url: string) => {
+    e.preventDefault()
+    window.open(url, "_blank")
+  }
+
   return (
     <ol className="flex flex-col gap-2">
       {items?.map((item, i) => (
         <a
           href={width < 768 ? item.mobileUrl || item.url : item.url}
-          target="_blank"
           key={item.id}
           title={item.extra?.hover}
+          onClick={e => handleLinkClick(e, width < 768 ? item.mobileUrl || item.url : item.url)}
           className={$(
             "flex gap-2 items-center items-stretch relative cursor-pointer [&_*]:cursor-pointer transition-all",
             "hover:bg-neutral-400/10 rounded-md pr-1 visited:(text-neutral-400)",
@@ -272,6 +281,12 @@ function NewsListHot({ items }: { items: NewsItem[] }) {
 
 function NewsListTimeLine({ items }: { items: NewsItem[] }) {
   const { width } = useWindowSize()
+
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, url: string) => {
+    e.preventDefault()
+    window.open(url, "_blank")
+  }
+
   return (
     <ol className="border-s border-neutral-400/50 flex flex-col ml-1">
       {items?.map(item => (
@@ -292,8 +307,7 @@ function NewsListTimeLine({ items }: { items: NewsItem[] }) {
             )}
             href={width < 768 ? item.mobileUrl || item.url : item.url}
             title={item.extra?.hover}
-            target="_blank"
-            rel="noopener noreferrer"
+            onClick={e => handleLinkClick(e, width < 768 ? item.mobileUrl || item.url : item.url)}
           >
             {item.title}
           </a>
