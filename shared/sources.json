@@ -571,5 +571,14 @@
     "color": "green",
     "interval": 1800000,
     "title": "热播榜"
+  },
+  "latepost": {
+    "title": "早知道",
+    "name": "晚点",
+    "type": "realtime",
+    "column": "china",
+    "home": "https://www.latepost.com",
+    "color": "purple",
+    "interval": 1800000
   }
 }

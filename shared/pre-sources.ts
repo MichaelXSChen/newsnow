@@ -490,6 +490,15 @@ export const originSources = {
       },
     },
   },
+  "latepost": {
+    name: "晚点",
+    column: "china",
+    color: "purple",
+    type: "realtime",
+    interval: Time.Common,
+    home: "https://www.latepost.com",
+    title: "早知道",
+  },
 } as const satisfies Record<string, OriginSource>
 
 export function genSources() {
