@@ -21,27 +21,8 @@ export function Menu() {
             }}
           >
             <ol className="bg-base bg-op-70! backdrop-blur-md p-2 rounded-lg color-base text-base">
-              <li onClick={() => window.open(Homepage)} className="cursor-pointer [&_*]:cursor-pointer transition-all">
-                <span className="i-ph:github-logo-duotone inline-block" />
-                <span>Star on Github </span>
-              </li>
-              <li className="flex gap-2 items-center">
-                <a
-                  href="https://github.com/ourongxing/newsnow"
-                >
-                  <img
-                    alt="GitHub stars badge"
-                    src="https://img.shields.io/github/stars/ourongxing/newsnow?logo=github&style=flat&labelColor=%235e3c40&color=%23614447"
-                  />
-                </a>
-                <a
-                  href="https://github.com/ourongxing/newsnow/fork"
-                >
-                  <img
-                    alt="GitHub forks badge"
-                    src="https://img.shields.io/github/forks/ourongxing/newsnow?logo=github&style=flat&labelColor=%235e3c40&color=%23614447"
-                  />
-                </a>
+              <li className="flex gap-2 items-center justify-center text-sm op-70">
+                NewsNow - 本地新闻聚合工具
               </li>
             </ol>
           </motion.div>

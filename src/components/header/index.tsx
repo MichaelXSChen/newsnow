@@ -17,12 +17,6 @@ function GoTop() {
   )
 }
 
-function Github() {
-  return (
-    <button type="button" title="Github" className="i-ph:github-logo-duotone btn" onClick={() => window.open(Homepage)} />
-  )
-}
-
 function Refresh() {
   const currentSources = useAtomValue(currentSourcesAtom)
   const { refresh } = useRefetch()
@@ -78,9 +72,6 @@ export function Header() {
             </p>
           </span>
         </Link>
-        <a target="_blank" href={`${Homepage}/releases/tag/v${Version}`} className="btn text-sm ml-1 font-mono">
-          {`v${Version}`}
-        </a>
       </span>
       <span className="justify-self-center">
         <span className="hidden md:(inline-block)">
@@ -91,7 +82,6 @@ export function Header() {
         <GoTop />
         <Refresh />
         <ClearCache />
-        <Github />
         <Menu />
       </span>
     </>
