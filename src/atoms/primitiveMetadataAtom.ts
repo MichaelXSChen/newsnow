@@ -39,11 +39,18 @@ export function preprocessMetadata(target: PrimitiveMetadata) {
   return {
     data: typeSafeObjectFromEntries(
       typeSafeObjectEntries(target.data).map(([id, userSources]) => {
-        // Merge user's custom order with new sources
-        const defaultSources = initialMetadata[id] || []
+        // Only add default sources on first run (updatedTime === 0)
+        const isFirstRun = target.updatedTime === 0
         const existingValidSources = userSources.filter(k => sources[k]).map(k => sources[k].redirect ?? k)
-        const newSources = defaultSources.filter(k => !existingValidSources.includes(k))
-        return [id, [...existingValidSources, ...newSources]]
+
+        if (isFirstRun && existingValidSources.length === 0) {
+          // First time user: add default sources
+          const defaultSources = initialMetadata[id] || []
+          return [id, [...defaultSources]]
+        }
+
+        // Return user's saved sources as-is, don't auto-add defaults
+        return [id, existingValidSources]
       }),
     ),
     action: target.action,
