@@ -46,6 +46,8 @@ function ClearCache() {
     setTimeout(() => location.reload(), 1000)
   }, [toast])
 
+  if (!import.meta.env.DEV) return null
+
   return (
     <button
       type="button"
