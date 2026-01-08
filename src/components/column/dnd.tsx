@@ -18,7 +18,7 @@ import { currentSourcesAtom } from "~/atoms"
 
 const AnimationDuration = 200
 const WIDTH = 350
-export function Dnd() {
+export function Dnd({ showDelete, onDelete }: { showDelete?: boolean, onDelete?: (id: SourceID) => void }) {
   const [items, setItems] = useAtom(currentSourcesAtom)
   const [parent] = useAutoAnimate({ duration: AnimationDuration })
   useEntireQuery(items)
@@ -80,7 +80,7 @@ export function Dnd() {
                 },
               }}
             >
-              <SortableCardWrapper id={id} />
+              <SortableCardWrapper id={id} showDelete={showDelete} onDelete={onDelete} />
             </motion.li>
           ))}
         </motion.ol>
@@ -166,7 +166,7 @@ function CardOverlay({ id }: { id: SourceID }) {
   )
 }
 
-function SortableCardWrapper({ id }: ItemsProps) {
+function SortableCardWrapper({ id, showDelete, onDelete }: ItemsProps) {
   const {
     isDragging,
     setNodeRef,
@@ -187,6 +187,8 @@ function SortableCardWrapper({ id }: ItemsProps) {
         id={id}
         isDragging={isDragging}
         setHandleRef={setHandleRef}
+        showDelete={showDelete}
+        onDelete={onDelete}
       />
       {OverlayContainer && createPortal(<CardOverlay id={id} />, OverlayContainer)}
     </>

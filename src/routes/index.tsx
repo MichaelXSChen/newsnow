@@ -1,10 +1,21 @@
 import { createFileRoute } from "@tanstack/react-router"
-import { Column } from "~/components/column"
+import { useState } from "react"
+import { Tabs } from "~/components/tabs"
+import { ConfigPage } from "~/pages/config"
+import { FavoritesPage } from "~/pages/favorites"
 
 export const Route = createFileRoute("/")({
   component: IndexComponent,
 })
 
 function IndexComponent() {
-  return <Column id="all" />
+  const [activeTab, setActiveTab] = useState<"config" | "favorites">("favorites")
+
+  return (
+    <>
+      <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
+      {activeTab === "config" && <ConfigPage />}
+      {activeTab === "favorites" && <FavoritesPage />}
+    </>
+  )
 }

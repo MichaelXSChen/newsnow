@@ -13,14 +13,24 @@ export interface ItemsProps extends React.HTMLAttributes<HTMLDivElement> {
    */
   isDragging?: boolean
   setHandleRef?: (ref: HTMLElement | null) => void
+  /**
+   * 是否显示删除按钮
+   */
+  showDelete?: boolean
+  /**
+   * 删除回调
+   */
+  onDelete?: (id: SourceID) => void
 }
 
 interface NewsCardProps {
   id: SourceID
   setHandleRef?: (ref: HTMLElement | null) => void
+  showDelete?: boolean
+  onDelete?: (id: SourceID) => void
 }
 
-export const CardWrapper = forwardRef<HTMLElement, ItemsProps>(({ id, isDragging, setHandleRef, style, ...props }, dndRef) => {
+export const CardWrapper = forwardRef<HTMLElement, ItemsProps>(({ id, isDragging, setHandleRef, showDelete, onDelete, style, ...props }, dndRef) => {
   const ref = useRef<HTMLDivElement>(null)
 
   const inView = useInView(ref, {
@@ -45,12 +55,12 @@ export const CardWrapper = forwardRef<HTMLElement, ItemsProps>(({ id, isDragging
       }}
       {...props}
     >
-      {inView && <NewsCard id={id} setHandleRef={setHandleRef} />}
+      {inView && <NewsCard id={id} setHandleRef={setHandleRef} showDelete={showDelete} onDelete={onDelete} />}
     </div>
   )
 })
 
-function NewsCard({ id, setHandleRef }: NewsCardProps) {
+function NewsCard({ id, setHandleRef, showDelete, onDelete }: NewsCardProps) {
   const { refresh } = useRefetch()
   const { data, isFetching, isError } = useQuery({
     queryKey: ["source", id],
@@ -134,6 +144,14 @@ function NewsCard({ id, setHandleRef }: NewsCardProps) {
             className={$("btn i-ph:arrow-counter-clockwise-duotone", isFetching && "animate-spin i-ph:circle-dashed-duotone")}
             onClick={() => refresh(id)}
           />
+          {showDelete && onDelete && (
+            <button
+              type="button"
+              className="btn i-ph:trash-duotone hover:text-red"
+              onClick={() => onDelete(id)}
+              title="删除此数据源"
+            />
+          )}
           {/* firefox cannot drag a button */}
           {setHandleRef && (
             <div
