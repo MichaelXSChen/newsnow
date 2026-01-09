@@ -2,7 +2,7 @@ import type { NewsItem, SourceID, SourceResponse } from "@shared/types"
 import { useQuery } from "@tanstack/react-query"
 import { AnimatePresence, motion, useInView } from "framer-motion"
 import { useWindowSize } from "react-use"
-import { forwardRef, useImperativeHandle } from "react"
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react"
 import { OverlayScrollbar } from "../common/overlay-scrollbar"
 import { safeParseString } from "~/utils"
 
@@ -62,6 +62,7 @@ export const CardWrapper = forwardRef<HTMLElement, ItemsProps>(({ id, isDragging
 
 function NewsCard({ id, setHandleRef, showDelete, onDelete }: NewsCardProps) {
   const { refresh } = useRefetch()
+
   const { data, isFetching, isError } = useQuery({
     queryKey: ["source", id],
     queryFn: async ({ queryKey }) => {
@@ -122,6 +123,16 @@ function NewsCard({ id, setHandleRef, showDelete, onDelete }: NewsCardProps) {
             title={sources[id].desc}
             onClick={(e) => {
               e.preventDefault()
+              try {
+                const api = (window as any).electronAPI || (globalThis as any).electronAPI
+                if (api && typeof api.openExternal === "function") {
+                  api.openExternal(sources[id].home)
+                  return
+                }
+              } catch (err) {
+                console.error("[NewsCard] electronAPI error:", err)
+              }
+              // Fallback
               window.open(sources[id].home, "_blank")
             }}
             style={{
@@ -245,6 +256,16 @@ function NewsListHot({ items }: { items: NewsItem[] }) {
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, url: string) => {
     e.preventDefault()
+    try {
+      const api = (window as any).electronAPI || (globalThis as any).electronAPI
+      if (api && typeof api.openExternal === "function") {
+        api.openExternal(url)
+        return
+      }
+    } catch (err) {
+      console.error("[NewsListHot] electronAPI error:", err)
+    }
+    // Fallback to window.open
     window.open(url, "_blank")
   }
 
@@ -284,6 +305,16 @@ function NewsListTimeLine({ items }: { items: NewsItem[] }) {
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, url: string) => {
     e.preventDefault()
+    try {
+      const api = (window as any).electronAPI || (globalThis as any).electronAPI
+      if (api && typeof api.openExternal === "function") {
+        api.openExternal(url)
+        return
+      }
+    } catch (err) {
+      console.error("[NewsListTimeLine] electronAPI error:", err)
+    }
+    // Fallback to window.open
     window.open(url, "_blank")
   }
 
